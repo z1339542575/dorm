@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >  
+  
+<mapper namespace="com.zjx.dao.RoomDao" >
+  <resultMap id="RoomMap" type="com.zjx.model.Room" >
+    <id column="dorm_roo_xno" property="dorm_roo_xno" jdbcType="VARCHAR" />
+    <result column="dorm_roo_rno" property="dorm_roo_rno" jdbcType="VARCHAR" />
+    <result column="dorm_roo_pno" property="dorm_roo_pno" jdbcType="VARCHAR" />
+    <result column="dorm_roo_bnum" property="dorm_roo_bnum" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    dorm_roo_xno,dorm_roo_rno,dorm_roo_pno,dorm_roo_bnum
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="RoomMap" parameterType="com.zjx.model.Room" >  
+    select
+    <include refid="Base_Column_List" />
+    from dorm_room
+    where dorm_roo_xno = #{dorm_roo_xno}
+  </select>
+	
+  <select id="selectByRno" resultMap="RoomMap" parameterType="com.zjx.model.Room" >  
+    select *from dorm_room
+    where dorm_roo_rno = #{dorm_roo_rno}
+  </select>
+  
+  <select id="selectByPno" resultMap="RoomMap" parameterType="com.zjx.model.Room" >  
+    select *from dorm_room
+    where dorm_roo_pno = #{dorm_roo_pno}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="com.zjx.model.Room" >
+    delete from dorm_room
+    where dorm_roo_xno = #{dorm_roo_xno}
+  </delete>
+  
+
+  <insert id="insert" parameterType="com.zjx.model.Room" useGeneratedKeys="true" keyProperty="dorm_roo_xno">
+    <selectKey resultType="String" order="BEFORE" keyProperty="dorm_roo_xno">  
+        SELECT dorm_room$SEQ.nextval AS dorm_roo_xno FROM dual
+    </selectKey>
+    insert into dorm_room (dorm_roo_xno,dorm_roo_rno,dorm_roo_pno,dorm_roo_bnum)
+    values (#{dorm_roo_xno,jdbcType=VARCHAR},#{dorm_roo_rno,jdbcType=VARCHAR},#{dorm_roo_pno,jdbcType=VARCHAR},#{dorm_roo_bnum,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.zjx.model.Room" >
+  	<selectKey resultType="String" order="BEFORE" keyProperty="dorm_roo_xno">  
+        SELECT dorm_room$SEQ.nextval AS dorm_roo_xno FROM dual
+    </selectKey>  
+    insert into dorm_room
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="dorm_roo_xno != null" >
+        dorm_roo_xno,
+      </if>
+      <if test="dorm_roo_rno != null" >
+        dorm_roo_rno,
+      </if>
+      <if test="dorm_roo_pno != null" >
+        dorm_roo_pno,
+      </if>
+      <if test="dorm_roo_bnum != null" >
+        dorm_roo_bnum,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="dorm_roo_xno != null" >
+        #{dorm_roo_xno,jdbcType=VARCHAR},
+      </if>
+      <if test="dorm_roo_rno != null" >
+        #{dorm_roo_rno,jdbcType=VARCHAR},
+      </if>
+      <if test="dorm_roo_pno != null" >
+        #{dorm_roo_pno,jdbcType=VARCHAR},
+      </if>
+      <if test="dorm_roo_bnum != null" >
+        #{dorm_roo_bnum,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </insert>
+    
+  <update id="updateByPrimaryKeySelective" parameterType="com.zjx.model.Room" >  
+    update dorm_room
+    <set >
+      <if test="dorm_roo_rno != null" >
+        dorm_roo_rno = #{dorm_roo_rno,jdbcType=VARCHAR},
+      </if>
+      <if test="dorm_roo_pno != null" >
+        dorm_roo_pno = #{dorm_roo_pno,jdbcType=VARCHAR},
+      </if>
+      <if test="dorm_roo_bnum != null" >
+        dorm_roo_bnum = #{dorm_roo_bnum,jdbcType=VARCHAR}
+      </if>
+    </set>
+    where dorm_roo_xno = #{dorm_roo_xno}  
+  </update>  
+    
+  <update id="updateByPrimaryKey" parameterType="com.zjx.model.Room" >  
+    update dorm_room
+    set dorm_roo_rno = #{dorm_roo_rno,jdbcType=VARCHAR},
+      dorm_roo_pno = #{dorm_roo_pno,jdbcType=VARCHAR},
+      dorm_roo_bnum = #{dorm_roo_bnum,jdbcType=VARCHAR}
+    where dorm_roo_xno = #{dorm_roo_xno}
+  </update>
+  
+  <select id="getAll" resultMap="RoomMap" parameterType="com.zjx.model.Room">
+    SELECT * FROM dorm_room
+  </select>
+</mapper>  

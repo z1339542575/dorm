@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >  
+  
+<mapper namespace="com.zjx.dao.AdminDao" >
+  <resultMap id="AdminMap" type="com.zjx.model.Admin" >
+    <id column="dorm_adm_ano" property="dorm_adm_ano" jdbcType="VARCHAR" />
+    <result column="dorm_adm_name" property="dorm_adm_name" jdbcType="VARCHAR" />
+    <result column="dorm_adm_sex" property="dorm_adm_sex" jdbcType="VARCHAR" />
+    <result column="dorm_adm_password" property="dorm_adm_password" jdbcType="VARCHAR" />
+    <result column="dorm_adm_state" property="dorm_adm_state" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    dorm_adm_ano,dorm_adm_name,dorm_adm_sex,dorm_adm_password,dorm_adm_state
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="AdminMap" parameterType="com.zjx.model.Admin" >  
+    select
+    <include refid="Base_Column_List" />
+    from dorm_admin
+    where dorm_adm_ano = #{dorm_adm_ano}
+  </select>
+
+  <select id="selectByAnoAndPassWord" resultMap="AdminMap" parameterType="com.zjx.model.Admin" >  
+    select * from dorm_admin
+    where dorm_adm_ano = #{dorm_adm_ano} and dorm_adm_password = #{dorm_adm_password}  
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="com.zjx.model.Admin" >
+    delete from dorm_admin
+    where dorm_adm_ano = #{dorm_adm_ano}
+  </delete>  
+
+  <insert id="insert" parameterType="com.zjx.model.Admin" useGeneratedKeys="true" keyProperty="dorm_adm_ano">
+    insert into dorm_admin (dorm_adm_ano,dorm_adm_name,dorm_adm_sex,dorm_adm_password)
+    values (#{dorm_adm_ano,jdbcType=VARCHAR},#{dorm_adm_name,jdbcType=VARCHAR},#{dorm_adm_sex,jdbcType=VARCHAR},#{dorm_adm_password,jdbcType=VARCHAR}
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.zjx.model.Admin" >  
+    insert into dorm_admin
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="dorm_adm_ano != null" >
+        dorm_adm_ano,
+      </if>
+      <if test="dorm_adm_name != null" >
+        dorm_adm_name,
+      </if>
+      <if test="dorm_adm_sex != null" >
+        dorm_adm_sex,
+      </if>
+      <if test="dorm_adm_password != null" >
+        dorm_adm_password,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="dorm_adm_ano != null" >
+        #{dorm_adm_ano,jdbcType=VARCHAR},
+      </if>
+      <if test="dorm_adm_name != null" >
+        #{dorm_adm_name,jdbcType=VARCHAR},
+      </if>
+      <if test="dorm_adm_sex != null" >
+        #{dorm_adm_sex,jdbcType=VARCHAR},
+      </if>
+      <if test="dorm_adm_password != null" >
+        #{dorm_adm_password,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+    
+  <update id="updateByPrimaryKeySelective" parameterType="com.zjx.model.Admin" >  
+    update dorm_admin
+    <set >
+      <if test="dorm_adm_name != null" >
+        dorm_adm_name = #{dorm_adm_name,jdbcType=VARCHAR},
+      </if>
+      <if test="dorm_adm_sex != null" >
+        dorm_adm_sex = #{dorm_adm_sex,jdbcType=VARCHAR},
+      </if>
+      <if test="dorm_adm_password != null" >
+        dorm_adm_password = #{dorm_adm_password,jdbcType=VARCHAR},
+      </if>
+      <if test="dorm_adm_state != null" >
+        dorm_adm_state = #{dorm_adm_state,jdbcType=VARCHAR}
+      </if>
+    </set>
+    where dorm_adm_ano = #{dorm_adm_ano}  
+  </update>  
+    
+  <update id="updateByPrimaryKey" parameterType="com.zjx.model.Admin" >  
+    update dorm_admin
+    set dorm_adm_name = #{dorm_adm_name,jdbcType=VARCHAR},
+      dorm_adm_sex = #{dorm_adm_sex,jdbcType=VARCHAR},
+      dorm_adm_password = #{dorm_adm_password,jdbcType=VARCHAR},
+      dorm_adm_state = #{dorm_adm_state,jdbcType=VARCHAR},
+    where dorm_adm_ano = #{dorm_adm_ano}
+  </update>
+  
+  <update id="updateStateByPrimaryKey" parameterType="com.zjx.model.Admin" >  
+    update dorm_admin
+    set dorm_adm_state = #{dorm_adm_state,jdbcType=VARCHAR}
+    where dorm_adm_ano = #{dorm_adm_ano}
+  </update>
+  
+  <select id="getAllByState" resultMap="AdminMap" parameterType="com.zjx.model.Admin">
+    SELECT * FROM dorm_admin
+    where dorm_adm_state = #{dorm_adm_state}
+  </select>
+  
+  <select id="getAll" resultMap="AdminMap" parameterType="com.zjx.model.Admin">
+    SELECT * FROM dorm_admin
+  </select>
+</mapper>  

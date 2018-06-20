@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >  
+  
+<mapper namespace="com.zjx.dao.VisitorDao" >
+  <resultMap id="VisitorMap" type="com.zjx.model.Visitor" >
+    <id column="dorm_vis_vno" property="dorm_vis_vno" jdbcType="VARCHAR" />
+    <result column="dorm_vis_name" property="dorm_vis_name" jdbcType="VARCHAR" />
+    <result column="dorm_vis_sex" property="dorm_vis_sex" jdbcType="VARCHAR" />
+    <result column="dorm_vis_date" property="dorm_vis_date" jdbcType="VARCHAR" />
+     <result column="dorm_roo_pno" property="dorm_roo_pno" jdbcType="VARCHAR" />
+    <result column="dorm_vis_remarks" property="dorm_vis_remarks" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    dorm_vis_vno,dorm_vis_name,dorm_vis_sex,dorm_vis_date,dorm_roo_pno,dorm_vis_remarks
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="VisitorMap" parameterType="com.zjx.model.Visitor" >  
+    select
+    <include refid="Base_Column_List" />
+    from dorm_visitor
+    where dorm_vis_vno = #{dorm_vis_vno}
+  </select>
+  
+  <select id="selectByName" resultMap="VisitorMap" parameterType="com.zjx.model.Visitor" >  
+    select *from dorm_visitor
+    where dorm_vis_name = #{dorm_vis_name}
+  </select>
+  
+  <select id="selectByDate" resultMap="VisitorMap" parameterType="com.zjx.model.Visitor" >  
+    select *from dorm_visitor
+    where dorm_vis_date = #{dorm_vis_date}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="com.zjx.model.Visitor" >
+    delete from dorm_visitor
+    where dorm_vis_vno = #{dorm_vis_vno}
+  </delete>
+
+  <insert id="insert" parameterType="com.zjx.model.Visitor" useGeneratedKeys="true" keyProperty="dorm_vis_vno">
+  	<selectKey resultType="String" order="BEFORE" keyProperty="dorm_vis_vno">  
+        SELECT dorm_visitor$SEQ.nextval AS dorm_vis_vno FROM dual
+    </selectKey>
+    insert into dorm_visitor (dorm_vis_vno,dorm_vis_name,dorm_vis_sex,dorm_vis_date,dorm_roo_pno,dorm_vis_remarks)
+    values (#{dorm_vis_vno,jdbcType=VARCHAR},#{dorm_vis_name,jdbcType=VARCHAR},#{dorm_vis_sex,jdbcType=VARCHAR},#{dorm_vis_date,jdbcType=VARCHAR},#{dorm_roo_pno,jdbcType=VARCHAR},#{dorm_vis_remarks,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.zjx.model.Visitor" > 
+  	<selectKey resultType="String" order="BEFORE" keyProperty="dorm_vis_vno">  
+        SELECT dorm_visitor$SEQ.nextval AS dorm_vis_vno FROM dual
+    </selectKey> 
+    insert into dorm_visitor
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="dorm_vis_vno != null" >
+        dorm_vis_vno,
+      </if>
+      <if test="dorm_vis_name != null" >
+        dorm_vis_name,
+      </if>
+      <if test="dorm_vis_sex != null" >
+        dorm_vis_sex,
+      </if>
+      <if test="dorm_vis_date != null" >
+        dorm_vis_date,
+      </if>
+       <if test="dorm_roo_pno != null" >
+        dorm_roo_pno,
+      </if>
+      <if test="dorm_vis_remarks != null" >
+        dorm_vis_remarks,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="dorm_vis_vno != null" >
+        #{dorm_vis_vno,jdbcType=VARCHAR},
+      </if>
+      <if test="dorm_vis_name != null" >
+        #{dorm_vis_name,jdbcType=VARCHAR},
+      </if>
+      <if test="dorm_vis_sex != null" >
+        #{dorm_vis_sex,jdbcType=VARCHAR},
+      </if>
+      <if test="dorm_vis_date != null" >
+        #{dorm_vis_date,jdbcType=VARCHAR},
+      </if>
+      <if test="dorm_roo_pno != null" >
+        #{dorm_roo_pno,jdbcType=VARCHAR},
+      </if>
+      <if test="dorm_vis_remarks != null" >
+        #{dorm_vis_remarks,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </insert>
+    
+  <update id="updateByPrimaryKeySelective" parameterType="com.zjx.model.Visitor" >  
+    update dorm_visitor
+    <set >
+      <if test="dorm_vis_name != null" >
+        dorm_vis_name = #{dorm_vis_name,jdbcType=VARCHAR},
+      </if>
+      <if test="dorm_vis_sex != null" >
+        dorm_vis_sex = #{dorm_vis_sex,jdbcType=VARCHAR},
+      </if>
+      <if test="dorm_vis_date != null" >
+        dorm_vis_date = #{dorm_vis_date,jdbcType=VARCHAR},
+      </if>
+      <if test="dorm_roo_pno != null" >
+        dorm_roo_pno = #{dorm_roo_pno,jdbcType=VARCHAR},
+      </if>
+      <if test="dorm_vis_remarks != null" >
+        dorm_vis_remarks = #{dorm_vis_remarks,jdbcType=VARCHAR}
+      </if>
+    </set>
+    where dorm_vis_vno = #{dorm_vis_vno}  
+  </update>  
+    
+  <update id="updateByPrimaryKey" parameterType="com.zjx.model.Visitor" >  
+    update dorm_visitor
+    set dorm_vis_name = #{dorm_vis_name,jdbcType=VARCHAR},
+      dorm_vis_sex = #{dorm_vis_sex,jdbcType=VARCHAR},
+      dorm_vis_date = #{dorm_vis_date,jdbcType=VARCHAR},
+      dorm_roo_pno = #{dorm_roo_pno,jdbcType=VARCHAR},
+      dorm_vis_remarks = #{dorm_vis_remarks,jdbcType=VARCHAR}
+    where dorm_roo_xno = #{dorm_roo_xno}
+  </update>
+  
+  <select id="getAll" resultMap="VisitorMap" parameterType="com.zjx.model.Visitor">
+    SELECT * FROM dorm_visitor
+  </select>
+</mapper>  

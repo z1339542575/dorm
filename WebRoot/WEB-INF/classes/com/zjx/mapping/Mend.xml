@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >  
+  
+<mapper namespace="com.zjx.dao.MendDao" >
+  <resultMap id="MendMap" type="com.zjx.model.Mend" >
+    <id column="dorm_men_mno" property="dorm_men_mno" jdbcType="VARCHAR" />
+    <result column="dorm_roo_rno" property="dorm_roo_rno" jdbcType="VARCHAR" />
+    <result column="dorm_roo_pno" property="dorm_roo_pno" jdbcType="VARCHAR" />
+    <result column="dorm_men_date" property="dorm_men_date" jdbcType="VARCHAR" />
+    <result column="dorm_men_info" property="dorm_men_info" jdbcType="VARCHAR" />
+    <result column="dorm_men_state" property="dorm_men_state" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    dorm_men_mno,dorm_roo_rno,dorm_roo_pno,dorm_men_date,dorm_men_info,dorm_men_state
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="MendMap" parameterType="com.zjx.model.Mend" >  
+    select
+    <include refid="Base_Column_List" />
+    from dorm_mend
+    where dorm_men_mno = #{dorm_men_mno}
+  </select>
+  
+  <select id="selectByState" resultMap="MendMap" parameterType="com.zjx.model.Mend" >  
+    select *from dorm_mend
+    where dorm_men_state = #{dorm_men_state}
+  </select>
+  
+  <select id="selectByDate" resultMap="MendMap" parameterType="com.zjx.model.Mend" >  
+    select *from dorm_mend
+    where dorm_men_date = #{dorm_men_date}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="com.zjx.model.Mend" >
+    delete from dorm_mend
+    where dorm_men_mno = #{dorm_men_mno}
+  </delete>
+
+  <insert id="insert" parameterType="com.zjx.model.Mend" useGeneratedKeys="true" keyProperty="dorm_men_mno">
+  	<selectKey resultType="String" order="BEFORE" keyProperty="dorm_men_mno">  
+        SELECT dorm_mend$SEQ.nextval AS dorm_men_mno FROM dual
+    </selectKey>
+    insert into dorm_mend (dorm_men_mno,dorm_roo_rno,dorm_roo_pno,dorm_men_date,dorm_men_info,dorm_men_state)
+    values (#{dorm_men_mno,jdbcType=VARCHAR},#{dorm_roo_rno,jdbcType=VARCHAR},#{dorm_roo_pno,jdbcType=VARCHAR},#{dorm_men_date,jdbcType=VARCHAR},#{dorm_men_info,jdbcType=VARCHAR},#{dorm_men_state,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.zjx.model.Mend" > 
+  	<selectKey resultType="String" order="BEFORE" keyProperty="dorm_men_mno">
+        SELECT dorm_mend$SEQ.nextval AS dorm_men_mno FROM dual
+    </selectKey>
+    insert into dorm_mend
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="dorm_men_mno != null" >
+        dorm_men_mno,
+      </if>
+      <if test="dorm_roo_rno != null" >
+        dorm_roo_rno,
+      </if>
+      <if test="dorm_roo_pno != null" >
+        dorm_roo_pno,
+      </if>
+      <if test="dorm_men_date != null" >
+        dorm_men_date,
+      </if>
+       <if test="dorm_men_info != null" >
+        dorm_men_info,
+      </if>
+      <if test="dorm_men_state != null" >
+        dorm_men_state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="dorm_men_mno != null" >
+        #{dorm_men_mno,jdbcType=VARCHAR},
+      </if>
+      <if test="dorm_roo_rno != null" >
+        #{dorm_roo_rno,jdbcType=VARCHAR},
+      </if>
+      <if test="dorm_roo_pno != null" >
+        #{dorm_roo_pno,jdbcType=VARCHAR},
+      </if>
+      <if test="dorm_men_date != null" >
+        #{dorm_men_date,jdbcType=VARCHAR},
+      </if>
+      <if test="dorm_men_info != null" >
+        #{dorm_men_info,jdbcType=VARCHAR},
+      </if>
+      <if test="dorm_men_state != null" >
+        #{dorm_men_state,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </insert>
+    
+  <update id="updateByPrimaryKeySelective" parameterType="com.zjx.model.Mend" >  
+    update dorm_mend
+    <set >
+      <if test="dorm_roo_rno != null" >
+        dorm_roo_rno = #{dorm_roo_rno,jdbcType=VARCHAR},
+      </if>
+      <if test="dorm_roo_pno != null" >
+        dorm_roo_pno = #{dorm_roo_pno,jdbcType=VARCHAR},
+      </if>
+      <if test="dorm_men_date != null" >
+        dorm_men_date = #{dorm_men_date,jdbcType=VARCHAR},
+      </if>
+      <if test="dorm_men_info != null" >
+        dorm_men_info = #{dorm_men_info,jdbcType=VARCHAR},
+      </if>
+      <if test="dorm_men_state != null" >
+        dorm_men_state = #{dorm_men_state,jdbcType=VARCHAR}
+      </if>
+    </set>
+    where dorm_men_mno = #{dorm_men_mno}  
+  </update>  
+    
+  <update id="updateByPrimaryKey" parameterType="com.zjx.model.Mend" >  
+    update dorm_mend
+    set dorm_roo_rno = #{dorm_roo_rno,jdbcType=VARCHAR},
+      dorm_roo_pno = #{dorm_roo_pno,jdbcType=VARCHAR},
+      dorm_men_date = #{dorm_men_date,jdbcType=VARCHAR},
+      dorm_men_info = #{dorm_men_info,jdbcType=VARCHAR},
+      dorm_men_state = #{dorm_men_state,jdbcType=VARCHAR}
+    where dorm_men_mno = #{dorm_men_mno}
+  </update>
+  
+  <update id="updateStateByPrimaryKey" parameterType="com.zjx.model.Mend" >  
+    update dorm_mend
+    set dorm_men_state = #{dorm_men_state,jdbcType=VARCHAR}
+    where dorm_men_mno = #{dorm_men_mno}
+  </update>
+  
+  <select id="getAll" resultMap="MendMap" parameterType="com.zjx.model.Mend">
+    SELECT * FROM dorm_mend
+  </select>
+</mapper>  

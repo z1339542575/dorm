@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >  
+  
+<mapper namespace="com.zjx.dao.LoseDao" >
+  <resultMap id="LoseMap" type="com.zjx.model.Lose" >
+    <id column="dorm_lose_lno" property="dorm_lose_lno" jdbcType="VARCHAR" />
+    <result column="dorm_lose_info" property="dorm_lose_info" jdbcType="VARCHAR" />
+    <result column="dorm_lose_name" property="dorm_lose_name" jdbcType="VARCHAR" />
+    <result column="dorm_lose_date" property="dorm_lose_date" jdbcType="VARCHAR" />
+    <result column="dorm_lose_addr" property="dorm_lose_addr" jdbcType="VARCHAR" />
+    <result column="dorm_lose_state" property="dorm_lose_state" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    dorm_lose_lno,dorm_lose_info,dorm_lose_name,dorm_lose_date,dorm_lose_addr,dorm_lose_state
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="LoseMap" parameterType="com.zjx.model.Lose" >  
+    select
+    <include refid="Base_Column_List" />
+    from dorm_lose
+    where dorm_lose_lno = #{dorm_lose_lno}
+  </select>
+  
+  <select id="selectByDate" resultMap="LoseMap" parameterType="com.zjx.model.Lose" >  
+    select dorm_lose_state from dorm_lose
+    where dorm_lose_lno = #{dorm_lose_lno}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="com.zjx.model.Lose" >
+    delete from dorm_lose
+    where dorm_lose_lno = #{dorm_lose_lno}
+  </delete>
+
+  <insert id="insert" parameterType="com.zjx.model.Lose" useGeneratedKeys="true" keyProperty="dorm_lose_lno">
+  	<selectKey resultType="String" order="BEFORE" keyProperty="dorm_lose_lno">  
+        SELECT dorm_lose$SEQ.nextval AS dorm_lose_lno FROM dual
+    </selectKey>
+    insert into dorm_lose (dorm_lose_lno,dorm_lose_info,dorm_lose_name,dorm_lose_date,dorm_lose_addr,dorm_lose_state)
+    values (#{dorm_lose_lno,jdbcType=VARCHAR},#{dorm_lose_info,jdbcType=VARCHAR},#{dorm_lose_name,jdbcType=VARCHAR},#{dorm_lose_date,jdbcType=VARCHAR},#{dorm_lose_addr,jdbcType=VARCHAR},#{dorm_lose_state,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.zjx.model.Lose" > 
+  	<selectKey resultType="String" order="BEFORE" keyProperty="dorm_lose_lno">  
+        SELECT dorm_lose$SEQ.nextval AS dorm_lose_lno FROM dual
+    </selectKey> 
+    insert into dorm_lose
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="dorm_lose_lno != null" >
+        dorm_lose_lno,
+      </if>
+      <if test="dorm_lose_info != null" >
+        dorm_lose_info,
+      </if>
+      <if test="dorm_lose_name != null" >
+        dorm_lose_name,
+      </if>
+      <if test="dorm_lose_date != null" >
+        dorm_lose_date,
+      </if>
+       <if test="dorm_lose_addr != null" >
+        dorm_lose_addr,
+      </if>
+      <if test="dorm_lose_state != null" >
+        dorm_lose_state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="dorm_lose_lno != null" >
+        #{dorm_lose_lno,jdbcType=VARCHAR},
+      </if>
+      <if test="dorm_lose_info != null" >
+        #{dorm_lose_info,jdbcType=VARCHAR},
+      </if>
+      <if test="dorm_lose_name != null" >
+        #{dorm_lose_name,jdbcType=VARCHAR},
+      </if>
+      <if test="dorm_lose_date != null" >
+        #{dorm_lose_date,jdbcType=VARCHAR},
+      </if>
+      <if test="dorm_lose_addr != null" >
+        #{dorm_lose_addr,jdbcType=VARCHAR},
+      </if>
+      <if test="dorm_lose_state != null" >
+        #{dorm_lose_state,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </insert>
+    
+  <update id="updateByPrimaryKeySelective" parameterType="com.zjx.model.Lose" >  
+    update dorm_lose
+    <set >
+      <if test="dorm_lose_info != null" >
+        dorm_lose_info = #{dorm_lose_info,jdbcType=VARCHAR},
+      </if>
+      <if test="dorm_lose_name != null" >
+        dorm_lose_name = #{dorm_lose_name,jdbcType=VARCHAR},
+      </if>
+      <if test="dorm_lose_date != null" >
+        dorm_lose_date = #{dorm_lose_date,jdbcType=VARCHAR},
+      </if>
+      <if test="dorm_lose_addr != null" >
+        dorm_lose_addr = #{dorm_lose_addr,jdbcType=VARCHAR},
+      </if>
+      <if test="dorm_lose_state != null" >
+        dorm_lose_state = #{dorm_lose_state,jdbcType=VARCHAR}
+      </if>
+    </set>
+    where dorm_lose_lno = #{dorm_lose_lno}  
+  </update>  
+    
+  <update id="updateByPrimaryKey" parameterType="com.zjx.model.Lose" >  
+    update dorm_lose
+    set dorm_lose_info = #{dorm_lose_info,jdbcType=VARCHAR},
+      dorm_lose_name = #{dorm_lose_name,jdbcType=VARCHAR},
+      dorm_lose_date = #{dorm_lose_date,jdbcType=VARCHAR},
+      dorm_lose_addr = #{dorm_lose_addr,jdbcType=VARCHAR},
+      dorm_lose_state = #{dorm_lose_state,jdbcType=VARCHAR}
+    where dorm_lose_lno = #{dorm_lose_lno}
+  </update>
+  
+  <update id="updateStateByPrimaryKey" parameterType="com.zjx.model.Lose" >  
+    update dorm_lose
+    set dorm_lose_state = #{dorm_lose_state,jdbcType=VARCHAR}
+    where dorm_lose_lno = #{dorm_lose_lno}
+  </update>
+  
+  <select id="getAll" resultMap="LoseMap" parameterType="com.zjx.model.Lose">
+    SELECT * FROM dorm_lose
+  </select>
+</mapper>  

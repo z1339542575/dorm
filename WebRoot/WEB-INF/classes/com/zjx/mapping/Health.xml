@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"   
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd" >  
+  
+<mapper namespace="com.zjx.dao.HealthDao" >
+  <resultMap id="HealthMap" type="com.zjx.model.Health" >
+    <id column="dorm_hea_hno" property="dorm_hea_hno" jdbcType="VARCHAR" />
+    <result column="dorm_roo_rno" property="dorm_roo_rno" jdbcType="VARCHAR" />
+    <result column="dorm_roo_pno" property="dorm_roo_pno" jdbcType="VARCHAR" />
+    <result column="dorm_hea_date" property="dorm_hea_date" jdbcType="VARCHAR" />
+    <result column="dorm_hea_score" property="dorm_hea_score" jdbcType="VARCHAR" />
+    <result column="dorm_hea_remarks" property="dorm_hea_remarks" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    dorm_hea_hno,dorm_roo_rno,dorm_roo_pno,dorm_hea_date,dorm_hea_score,dorm_hea_remarks
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="HealthMap" parameterType="com.zjx.model.Health" >  
+    select
+    <include refid="Base_Column_List" />
+    from dorm_health
+    where dorm_hea_hno = #{dorm_hea_hno}
+  </select>
+  
+  <select id="selectByRno" resultMap="HealthMap" parameterType="com.zjx.model.Health" >  
+    select *from dorm_health
+    where dorm_roo_rno = #{dorm_roo_rno}
+  </select>
+  
+  <select id="selectByDate" resultMap="HealthMap" parameterType="com.zjx.model.Health" >  
+    select *from dorm_health
+    where dorm_hea_date = #{dorm_hea_date}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="com.zjx.model.Health" >
+    delete from dorm_health
+    where dorm_hea_hno = #{dorm_hea_hno}
+  </delete>
+
+  <insert id="insert" parameterType="com.zjx.model.Health" useGeneratedKeys="true" keyProperty="dorm_hea_hno">
+  	<selectKey resultType="String" order="BEFORE" keyProperty="dorm_hea_hno">  
+        SELECT dorm_health$SEQ.nextval AS dorm_hea_hno FROM dual
+    </selectKey>
+    insert into dorm_health (dorm_hea_hno,dorm_roo_rno,dorm_roo_pno,dorm_hea_date,dorm_hea_score,dorm_hea_remarks)
+    values (#{dorm_hea_hno,jdbcType=VARCHAR},#{dorm_roo_rno,jdbcType=VARCHAR},#{dorm_roo_pno,jdbcType=VARCHAR},#{dorm_hea_date,jdbcType=VARCHAR},#{dorm_hea_score,jdbcType=VARCHAR},#{dorm_hea_remarks,jdbcType=VARCHAR})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.zjx.model.Health" > 
+  	<selectKey resultType="String" order="BEFORE" keyProperty="dorm_hea_hno">
+        SELECT dorm_health$SEQ.nextval AS dorm_hea_hno FROM dual
+    </selectKey>
+    insert into dorm_health
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="dorm_hea_hno != null" >
+        dorm_hea_hno,
+      </if>
+      <if test="dorm_roo_rno != null" >
+        dorm_roo_rno,
+      </if>
+      <if test="dorm_roo_pno != null" >
+        dorm_roo_pno,
+      </if>
+      <if test="dorm_hea_date != null" >
+        dorm_hea_date,
+      </if>
+       <if test="dorm_hea_score != null" >
+        dorm_hea_score,
+      </if>
+      <if test="dorm_hea_remarks != null" >
+        dorm_hea_remarks,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="dorm_hea_hno != null" >
+        #{dorm_hea_hno,jdbcType=VARCHAR},
+      </if>
+      <if test="dorm_roo_rno != null" >
+        #{dorm_roo_rno,jdbcType=VARCHAR},
+      </if>
+      <if test="dorm_roo_pno != null" >
+        #{dorm_roo_pno,jdbcType=VARCHAR},
+      </if>
+      <if test="dorm_hea_date != null" >
+        #{dorm_hea_date,jdbcType=VARCHAR},
+      </if>
+      <if test="dorm_hea_score != null" >
+        #{dorm_hea_score,jdbcType=VARCHAR},
+      </if>
+      <if test="dorm_hea_remarks != null" >
+        #{dorm_hea_remarks,jdbcType=VARCHAR}
+      </if>
+    </trim>
+  </insert>
+    
+  <update id="updateByPrimaryKeySelective" parameterType="com.zjx.model.Health" >  
+    update dorm_health
+    <set >
+      <if test="dorm_roo_rno != null" >
+        dorm_roo_rno = #{dorm_roo_rno,jdbcType=VARCHAR},
+      </if>
+      <if test="dorm_roo_pno != null" >
+        dorm_roo_pno = #{dorm_roo_pno,jdbcType=VARCHAR},
+      </if>
+      <if test="dorm_hea_date != null" >
+        dorm_hea_date = #{dorm_hea_date,jdbcType=VARCHAR},
+      </if>
+      <if test="dorm_hea_score != null" >
+        dorm_hea_score = #{dorm_hea_score,jdbcType=VARCHAR},
+      </if>
+      <if test="dorm_hea_remarks != null" >
+        dorm_hea_remarks = #{dorm_hea_remarks,jdbcType=VARCHAR}
+      </if>
+    </set>
+    where dorm_hea_hno = #{dorm_hea_hno}  
+  </update>  
+    
+  <update id="updateByPrimaryKey" parameterType="com.zjx.model.Health" >  
+    update dorm_health
+    set dorm_roo_rno = #{dorm_roo_rno,jdbcType=VARCHAR},
+      dorm_roo_pno = #{dorm_roo_pno,jdbcType=VARCHAR},
+      dorm_hea_date = #{dorm_hea_date,jdbcType=VARCHAR},
+      dorm_hea_score = #{dorm_hea_score,jdbcType=VARCHAR},
+      dorm_hea_remarks = #{dorm_hea_remarks,jdbcType=VARCHAR}
+    where dorm_hea_hno = #{dorm_hea_hno}
+  </update>
+  
+  <select id="getAll" resultMap="HealthMap" parameterType="com.zjx.model.Health">
+    SELECT * FROM dorm_health
+  </select>
+</mapper>  
